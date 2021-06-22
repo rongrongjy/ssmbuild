@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--配置数据源，交给Spring去做-->
+<!--    将pri.rong.pojo包下的类都取别名，以类名的小写为别名-->
+    <typeAliases>
+        <package name="pri.rong.pojo"/>
+    </typeAliases>
+    <mappers>
+        <mapper class="pri.rong.dao.BookMapper"/>
+    </mappers>
+
+</configuration>

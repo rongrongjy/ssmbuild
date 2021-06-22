@@ -1,0 +1,44 @@
+问题：bean不存在
+
+步骤：
+1.查看这个bean注入是否成功！ok
+2.Junit单元测试，看我们的代码是否能够查询出来结果! ok
+public class MyTest {
+    @Test
+    public void test(){
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        BookService bookServiceImpl = context.getBean("BookServiceImpl", BookService.class);
+        for (Books books : bookServiceImpl.queryAllBook()) {
+            System.out.println(books);
+        }
+    }
+
+}
+
+3.问题一定不在我们的底层，是spring出了问题！
+ */
+@Controller
+@RequestMapping("/book")//方便以后的扩展
+public class BookController {
+    //controller调service层
+//    @Autowired
+//    @Qualifier("BookServiceImpl")
+    private BookService bookService = new BookServiceImpl();//注入service层的接口
+
+    //查询全部的书籍，并且返回一个书籍展示页面
+    @RequestMapping("/allBook")
+    public String list(Model model){
+        List<Books> list = bookService.queryAllBook();
+
+        model.addAttribute("list",list);
+        return "allBook";//allBook.jsp页面
+    }
+}
+以上代码执行之后返回结果为空指针，即问题一定不在我们的底层，是spring出了问题！
+4.SpringMVC，整合的时候没调用到我们的service层
+  1.applicationContext.xml没有注入bean
+  2.web.xml中，我们也绑定过配置文件！
+  发现问题，我们配置的是Spring-mvc.xml,这里确实没有service bean，所以报空指针异常！
+
+
+
